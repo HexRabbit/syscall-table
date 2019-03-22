@@ -2,12 +2,22 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * General page setup
  */
+
+html {
+ width: 90%;
+ margin-left: auto;
+ margin-right: auto;
+ background-color: #33313b;
+}
+
 #syscall_table {
-	font: .8em "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-	margin: 0;
-	padding: 0;
+	font: 0.9em "Lucida Grande",sans-serif;
 	color: #333;
 	background-color: #fff;
+}
+#syscall_table tbody {
+ border-left: 1px solid #AAA;
+ border-right: 1px solid #AAA;
 }
 
 #syscall_table .spacer {
@@ -44,6 +54,7 @@
 	clear: both;
 }
 
+
 #syscall_table a {
 	color: #660000;
 	font-weight: bold;
@@ -65,3 +76,15 @@
 .css_left {
 	float: left;
 }
+
+.row_hover * { background-color: #fff8cd !important; }
+.not_implemented * { background-color: #ffdddd !important;}
+
+.chunk {
+ color: #fdc57b;
+}
+.chunk a {
+ color: #007880;
+}
+
+

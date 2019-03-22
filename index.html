@@ -10,15 +10,12 @@
       @import "css/jquery-ui-1.7.2.custom.css";
     </style>
 
-    <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/typography.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/stylesheet.css" type="text/css" media="screen" />
-
     <script src="js/cufon-yui.js" type="text/javascript"></script>
     <script src="js/ChunkFive_400.font.js" type="text/javascript"></script>
     <script type="text/javascript">
       Cufon('.chunk')('.chunk a', {hover:true});
     </script>
+
 
     <script type="text/javascript" language="javascript" src="js/jquery.js"></script>
     <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
@@ -26,7 +23,7 @@
       var renderReg = function (obj) {
         if(obj.aData[obj.iDataColumn].type != null)
           if(obj.aData[obj.iDataColumn].def != null && obj.aData[obj.iDataColumn].file != "")
-            return "<a target='_blank' href='http://lxr.free-electrons.com/source/"+obj.aData[obj.iDataColumn].def.file+"?v=2.6.35#L"+obj.aData[obj.iDataColumn].def.line+"'>"+obj.aData[obj.iDataColumn].type+"</a>";
+            return "<a target='_blank' href='https://elixir.bootlin.com/linux/v5.0.3/source/"+obj.aData[obj.iDataColumn].def.file+"#L"+obj.aData[obj.iDataColumn].def.line+"'>"+obj.aData[obj.iDataColumn].type+"</a>";
           else
             return obj.aData[obj.iDataColumn].type;
         else
@@ -35,53 +32,58 @@
       $(document).ready(function() {
         $('#syscall_table').dataTable( {
           "sDom": '<"H"rlf>t<"F"ip>',
-          "iDisplayLength": 10,
+          "iDisplayLength": -1,
           "oLanguage": {
             "sLengthMenu": 'Show <select><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option><option value="-1">All</option></select> entries'
           },
           "bJQueryUI": true,
           "bProcessing": true,
           "sPaginationType": "full_numbers",
-          "sAjaxSource": './syscalls-2.6.35.4.js',
+          "sAjaxSource": './syscall.json',
           "aoColumns": [
           /* Number */ { "sClass": "center"},
           /* Name */ { "sClass": "bold", "sType": "html", "fnRender": function (obj) {
-              if(obj.aData[1].match("sys_(.+)"))
-                return "<a target='_blank' href='http://www.kernel.org/doc/man-pages/online/pages/man2/"+obj.aData[1].match("sys_(.+)")[1]+".2.html'>"+obj.aData[1]+"</a>";
-              else
-                return obj.aData[1]
+              return "<a target='_blank' href='http://www.kernel.org/doc/man-pages/online/pages/man2/"+obj.aData[1]+".2.html'>"+obj.aData[1]+"</a>";
               }
               },
-          /* Signature */ { "bVisible": false, "bSearchable": false },
-          /* eax */ { iDataSort: 0, "bSearchable": true },
-          /* ebx */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
-          /* ecx */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
-          /* edx */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
-          /* esi */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
-          /* edi */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* rax */ { iDataSort: 0, "bSearchable": true },
+          /* rdi */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* rsi */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* rdx */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* r10 */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* r8  */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
+          /* r9  */ { "sType": "html", "fnRender": renderReg, "bSearchable": false },
           /* URL */ { "sType": "html", "bSearchable": false, "fnRender": function (oObj) {
-                if(oObj.aData[9] != "")
-                  return "<a target='_blank' href='http://lxr.free-electrons.com/source/"+oObj.aData[9]+"?v=2.6.35#L"+oObj.aData[10]+"'>"+oObj.aData[9]+":"+oObj.aData[10]+"</a>";
+                if(oObj.aData[9])
+                  return "<a target='_blank' href='https://elixir.bootlin.com/linux/v5.0.3/source/"+oObj.aData[9]+"#L"+oObj.aData[10]+"'>"+oObj.aData[9]+":"+oObj.aData[10]+"</a>";
                 else
-                  return oObj.aData[9];
+                  return "not implemented";
               }
             },
           /* Line */ { "bVisible": false, "bSearchable": false }
-          ]
+          ],
+          "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+              $(nRow).hover(function(){
+                  $(this).toggleClass('row_hover');
+              });
+              if(aData[0] % 2) {
+                  $(nRow).css({"background-color":"#eee"});
+                  $(nRow).children(".center").css({"background-color":"#ddd"});
+              }
+              else {
+                  $(nRow).css({"background-color":"#ddd"});
+                  $(nRow).children(".center").css({"background-color":"#ccc"});
+              }
+              if(aData[9] === 'not implemented'){
+                  $(nRow).addClass('not_implemented');
+                  $(nRow).hover(function(){
+                      $(this).toggleClass('not_implemented');
+                  });
+              }
+              return nRow;
+          }
         } );
       } );
-    </script>
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-12723311-2']);
-      _gaq.push(['_setDomainName', '.kernelgrok.com']);
-      _gaq.push(['_trackPageview']);
-
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
     </script>
   </head>
   <body>
@@ -93,23 +95,23 @@
       </div>
     </div>
     <div id="container2" class="site">
-      <table cellpadding="0" cellspacing="0" border="0" class="display" id="syscall_table">
+      <table cellpadding="0" cellspacing="0" border="0" class="display dataTable" id="syscall_table">
       <thead>
       <tr>
         <th rowspan="2">#</th>
         <th rowspan="2">Name</th>
-        <th rowspan="2">Signature</th>
-        <th class="ui-state-default" colspan="6">Registers</th>
+        <th class="ui-state-default" colspan="7">Registers</th>
         <th rowspan="2">Definition</th>
         <th rowspan="2">URL</th>
       </tr>
       <tr>
-        <th>eax</th>
-        <th>ebx</th>
-        <th>ecx</th>
-        <th>edx</th>
-        <th>esi</th>
-        <th>edi</th>
+        <th>rax</th>
+        <th>rdi</th>
+        <th>rsi</th>
+        <th>rdx</th>
+        <th>r10</th>
+        <th>r8</th>
+        <th>r9</th>
       </tr>
       </thead>
       <tbody>
@@ -118,14 +120,13 @@
       </table>
     </div>
     <div id="footer" class="site">
-      <h4 class="chunk">
-        Generated from Linux kernel 2.6.35.4 using <a target="_blank" href="http://ctags.sourceforge.net/">Exuberant Ctags</a>,
+      <h4 class="chunk" style="text-align: right; color: #fdc57b;">
+        Generated from Linux kernel 5.0.3 using <a target="_blank" href="http://ctags.sourceforge.net/">Exuberant Ctags</a>,
         <a target="_blank" href="http://www.python.org/">Python</a>, and
         <a target="_blank" href="http://www.datatables.net/">DataTables</a>.
         <br>
-        Project on <a href="https://github.com/gregose/syscall-table">GitHub</a>. Hosted on <a href="http://pages.github.com">GitHub Pages</a>.
+        Project on <a href="https://github.com/HexRabbit/syscall-table">GitHub</a>. Hosted on <a href="http://pages.github.com">GitHub Pages</a>.
       </h4>
     </div>
-    <script type="text/javascript">Cufon.now();</script>
   </body>
 </html>
