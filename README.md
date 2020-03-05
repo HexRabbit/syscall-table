@@ -2,6 +2,9 @@
 
 Generate JSON system call table from Linux source.
 
+## To use
+https://syscall.hexrabbit.io
+
 ## Generating JSON
 ```
 git clone https://github.com/HexRabbit/syscall-table && cd syscall-table
