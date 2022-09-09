@@ -2,7 +2,7 @@ name: static-files-generation
 
 on:
   schedule:
-  - cron: '0 17 * * *'
+  - cron: '0 10 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
