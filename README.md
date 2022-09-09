@@ -2,20 +2,34 @@
 
 Generate JSON system call table from Linux source.
 
-## To use
+## Usage
+
+### Hosted on
 https://syscall.hexrabbit.io
 
-## Generating JSON
+### Deploy
 ```
-git clone https://github.com/HexRabbit/syscall-table && cd syscall-table
-git clone https://github.com/torvalds/linux --depth=1
-python gen_syscalls.py
+# install required packages
+apt install ctags make
+
+# clone repo
+git clone https://github.com/HexRabbit/syscall-table
+cd syscall-table
+
+# install deps
+poetry install
+
+# automatically fetch the newest Linux source & generate static files
+poetry run python3 gen_syscalls.py FETCH
+
+# or use your specific Linux version
+poetry run python3 gen_syscalls.py path/to/linux_source
+
+# deploy to github pages
+bash deploy.sh
 ```
 
-## Web
-* uses [jQuery DataTables](http://datatables.net/) to pull JSON file and format table
-* links to https://elixir.bootlin.com for source cross-reference and http://www.kernel.org for manpages
-* `www` dir checked into gh-pages branch w/ JSON file using `deploy.sh`
-
-## Other
-* tested on linux kernel v5.0.3
+## References
+* Uses [jQuery DataTables](http://datatables.net/) to pull JSON file and format table
+* Links to [Elixir Cross Referencer](https://elixir.bootlin.com) for source cross-reference and [The Linux Kernel Archives](http://www.kernel.org) for manpages
+* Always synced with the latest Linux kernel by [Github Action](https://github.com/features/actions)
