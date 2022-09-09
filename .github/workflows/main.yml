@@ -1,4 +1,4 @@
-name: CI
+name: static-files-generation
 
 on:
   schedule:
@@ -10,9 +10,6 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    outputs:
-      continue: ${{ steps.checkTag.outputs.exists == 'false' }}
-
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
@@ -38,6 +35,6 @@ jobs:
       
       - name: Deploy
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           bash deploy.sh
