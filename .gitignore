@@ -28,3 +28,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 .idea
+
+# generated artifacts
+www/index.html
+www/syscall.json
