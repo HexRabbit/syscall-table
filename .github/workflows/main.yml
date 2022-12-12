@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install APT Packages
-        run: sudo apt install ctags make
+        run: sudo apt install exuberant-ctags make
       
       - name: Install Poetry
         uses: snok/install-poetry@v1
