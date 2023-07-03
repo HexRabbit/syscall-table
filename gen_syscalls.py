@@ -157,6 +157,9 @@ def main():
 
         linux_version = f'{matched.group(1)}-rc{matched.group(2)}'
 
+    elif linux_version.endswith('.0'):
+        linux_version = linux_version[:-2]
+
     tagfile = linux / 'tags'
     if not tagfile.exists():
         with Halo(text='Running ctags on kernel', spinner='dots') as sp:
