@@ -3,7 +3,7 @@ cd "$(dirname "$0")"
 
 if [ ! -f www/index.html ]; then
   echo "Please run python3 gen_syscalls.py [args] first!"
-  exit 0
+  exit -1
 fi
 
 git fetch
@@ -11,7 +11,7 @@ kernel_version=$(grep -Eo 'Linux kernel v[0-9]*\.[0-9]*(\.[0-9]*)?(-rc[0-9])?' w
 
 if [ $(git tag -l $kernel_version) ]; then
   echo "Version $kernel_version exist, aborting..."
-  exit 0
+  exit -1
 fi
 
 git checkout gh-pages
@@ -24,4 +24,3 @@ git add -A .
 git commit -m "sync with Linux $kernel_version"
 git tag -a $kernel_version -m "auto tagging $kernel_version"
 git push origin gh-pages --tags
-git checkout master
