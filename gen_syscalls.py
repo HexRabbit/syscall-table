@@ -17,7 +17,7 @@ import re
 def fetch_kernel(tmpdir):
     res = requests.get('https://www.kernel.org')
     tree = html.fromstring(res.text)
-    linux_url = tree.xpath('//*[@id="latest_link"]/a/@href')[0]
+    linux_url = tree.xpath('//*[@id="releases"]/tr[1]/td[4]/a/@href')[0]
     filename = linux_url.split('/')[-1]
     tmpfile = Path(tmpdir.name) / filename
 
