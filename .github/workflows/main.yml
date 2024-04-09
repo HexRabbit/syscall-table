@@ -29,9 +29,9 @@ jobs:
         run: pipx install poetry
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: 3.11
           cache: 'poetry'
 
       - name: Generate files from the latest kernel
