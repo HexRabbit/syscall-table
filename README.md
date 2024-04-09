@@ -7,7 +7,7 @@ Generate JSON system call table from Linux source.
 ### Hosted on
 https://syscall.hexrabbit.io
 
-### Deploy
+### Deploy manually
 ```
 # install required packages
 apt install ctags make
@@ -33,3 +33,6 @@ bash deploy.sh
 * Uses [jQuery DataTables](http://datatables.net/) to pull JSON file and format table
 * Links to [Elixir Cross Referencer](https://elixir.bootlin.com) for source cross-reference and [The Linux Kernel Archives](http://www.kernel.org) for manpages
 * Always synced with the latest Linux kernel by [Github Action](https://github.com/features/actions)
+
+## Acknowledgments
+This project was initially developed by Greg Ose. Huge thanks to him for creating such an excellent project.
