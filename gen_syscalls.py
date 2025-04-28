@@ -1,7 +1,7 @@
 from ctags import CTags, TagEntry
 from pathlib import Path
 from lxml import html
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 from shutil import copyfileobj
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -21,7 +21,8 @@ def fetch_kernel(tmpdir):
     filename = linux_url.split('/')[-1]
     tmpfile = Path(tmpdir.name) / filename
 
-    with urlopen(linux_url) as fsrc, open(tmpfile, 'wb+') as fdst:
+    req = Request(linux_url, headers={'User-Agent': 'Wget/1.21.4'})
+    with urlopen(req) as fsrc, open(tmpfile, 'wb+') as fdst:
         copyfileobj(fsrc, fdst)
 
     with tarfile.open(tmpfile) as tar:
